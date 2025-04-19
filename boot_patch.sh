@@ -80,10 +80,12 @@ cd cpiotmp
 sudo cpio -idv < ../ramdisk.cpio
 cd ..
 if [ ! -f "cpiotmp/prop.default" ]; then
-    cpu_abi="arm64-v8a"
+    cpu_abi="armv8l"
 else
     cpu_abi=$(grep -o 'ro.product.cpu.abi=[^ ]*' cpiotmp/prop.default | cut -d '=' -f 2)
-    if [ "$cpu_abi" != "arm64-v8a" ]; then
+    if [ "$cpu_abi" = "arm64-v8a" ]; then
+        cpu_abi="armv8l"
+    elif [ "$cpu_abi" != "armv8l" ]; then
         cpu_abi="armeabi-v7a"
     fi
 fi
